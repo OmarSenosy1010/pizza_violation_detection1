@@ -1,9 +1,11 @@
+# detection
 """
 detection.py
 Consumes frames from RabbitMQ, detects hands/scoopers/pizza using YOLO, tracks hands,
 publishes all annotated frames to 'annotated_frames'، and only violation frames
 to 'detected_frames' .
 """
+
 import cv2
 import pika
 import base64

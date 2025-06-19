@@ -1,5 +1,5 @@
 
-# pizza_violation_detection1
+# pizza_violation_detection
 
 # Pizza Violation Detection System
 
