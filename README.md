@@ -104,7 +104,7 @@ Open another terminal and run:
 cd ../pizza_violation_detection1
 python streaming_service.py
 ```
-- This starts a FastAPI server at `ws://localhost:8000/` for real-time frame streaming.
+- This starts a FastAPI server at `[ws://localhost:8000/](http://127.0.0.1:8000)` for real-time frame streaming.
 
 ### 4. Open the Frontend Dashboard
 
