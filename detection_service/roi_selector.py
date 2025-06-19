@@ -39,6 +39,7 @@ def main():
     config_path = "config.json"
 
     cap = cv2.VideoCapture(video_path)
+    cap.set(cv2.CAP_PROP_POS_FRAMES, 100)
     ret, frame = cap.read()
     cap.release()
 

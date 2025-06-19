@@ -27,7 +27,7 @@ async def root():
     return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
 
 # ===== SQLite Violation Count =====
-DB_PATH = os.path.join(os.path.dirname(__file__), "detection_service", "db", "violations.db")
+DB_PATH = os.path.join(os.path.dirname(__file__), "db", "violations.db")
 
 @app.get("/violations/count")
 async def get_violation_count():
@@ -43,7 +43,7 @@ async def get_violation_count():
 
 # ===== WebSocket for Real-Time Stream =====
 RABBITMQ_URL = "amqp://guest:guest@localhost:5672/"
-DETECT_QUEUE = "detected_frames"
+DETECT_QUEUE = "annotated_frames"
 
 def get_rabbitmq_connection():
     try:
@@ -67,6 +67,7 @@ async def websocket_endpoint(ws: WebSocket):
     ch.queue_declare(queue=DETECT_QUEUE, durable=True)
 
     try:
+        last_sent = time.time()
         while True:
             try:
                 method_frame, header_frame, body = ch.basic_get(queue=DETECT_QUEUE, auto_ack=True)
@@ -82,7 +83,13 @@ async def websocket_endpoint(ws: WebSocket):
                     }
 
                     await ws.send_text(json.dumps(message))
+                    print("Frame sent at", time.time())
+                    last_sent = time.time()
                 else:
+                    # Send heartbeat every 1s if no frame
+                    if time.time() - last_sent > 1:
+                        await ws.send_text(json.dumps({"heartbeat": True}))
+                        last_sent = time.time()
                     await asyncio.sleep(0.01)
             except WebSocketDisconnect:
                 print("❌ WebSocket disconnected")

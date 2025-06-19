@@ -47,6 +47,12 @@ def callback(ch, method, properties, body):
     data     = json.loads(body)
     frame_id = data["frame_id"]
     img_b64  = data["image"]
+    violation = data.get("violation", False)
+
+    # ✅ Skip if no violation
+    if not violation:
+        ch.basic_ack(delivery_tag=method.delivery_tag)
+        return
 
     # Decode image from base64
     img_data = base64.b64decode(img_b64)

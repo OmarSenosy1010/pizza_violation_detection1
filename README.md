@@ -104,7 +104,7 @@ Open another terminal and run:
 cd ../pizza_violation_detection1
 python streaming_service.py
 ```
-- This starts a FastAPI server at `ws://localhost:8000/` for real-time frame streaming.
+- This starts a FastAPI server at `[ws://localhost:8000/](http://127.0.0.1:8000)` for real-time frame streaming.
 
 ### 4. Open the Frontend Dashboard
 
@@ -115,8 +115,8 @@ Open `frontend/index.html` in your web browser.
 
 ## Data Storage
 
-- **Violation images** are saved in `detection_service\db\violations`.
-- **Violation logs** are stored in `detection_service\db\violations.db` (SQLite).
+- **Violation images** are saved in `db\violations`.
+- **Violation logs** are stored in `db\violations.db` (SQLite).
 
 ## Customization
 

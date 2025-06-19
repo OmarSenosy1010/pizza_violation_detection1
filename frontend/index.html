@@ -32,8 +32,10 @@
         const res = await fetch("/violations/count");
         const data = await res.json();
         document.getElementById("count").innerText = data.violations;
+        console.log("Violation count:", data.violations);
       } catch (e) {
         document.getElementById("count").innerText = "-";
+        console.error("Error fetching violation count:", e);
       }
     }, 1000);
 
@@ -65,16 +67,18 @@
     }
 
     ws.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    video.src = `data:image/jpeg;base64,${data.image}`;
-
-    if (data.violation) {
-        // يمكنك عرض تنبيه أو تغيير الحدود
+      const data = JSON.parse(event.data);
+      if (data.heartbeat) {
+        // Heartbeat, do nothing
+        return;
+      }
+      video.src = `data:image/jpeg;base64,${data.image}`;
+      if (data.violation) {
         overlay.style.border = '4px solid red';
-    } else {
+      } else {
         overlay.style.border = 'none';
-    }
-};
+      }
+    };
   </script>
 </body>
 </html> 
